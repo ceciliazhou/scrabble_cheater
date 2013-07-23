@@ -1,5 +1,5 @@
 #include <iostream>
-#include <unordered_set>
+// #include <unordered_set>
 #include <unordered_map>
 #include <cstring>
 #include <string>
@@ -19,8 +19,8 @@ public:
 			dict.insert(word);
 	}
 
-	bool hasWord(const string& word) const {
-		return dict.contains(word) == 1;
+	bool contains(const string& word) const {
+		return dict.find(word) == Trie::WORD;
 	}
 
 	~Dict(){};
@@ -63,7 +63,8 @@ void constructWords(unordered_map<char, int>& choice, string& curWord, const Dic
 
 		curWord += it->first;
 		it->second--;
-		if(dict.hasWord(curWord))
+		int res = dict.contains(curWord);
+		if(dict.contains(curWord))
 			words.push_back(make_pair(curWord, score(curWord)));
 		constructWords(choice, curWord, dict, words);		
 		

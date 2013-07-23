@@ -28,19 +28,19 @@ void Trie::insert(const string& word, int cur){
 	successor[index]->insert(word, cur+1);
 }
 
-int Trie::contains(const string& word) const{
+int Trie::find(const string& word) const{
 	if(word == "") return false;
-	return contains(word, 0);
+	return find(word, 0);
 }
 
-int Trie::contains(const string& word, int cur) const{
+int Trie::find(const string& word, int cur) const{
 	if(cur == word.length())
-		return endOfWord ? 1 : 2;
+		return endOfWord ? int(Trie::WORD) : int(Trie::PREFIX);
 
 	int index = tolower(word[cur]) - 'a';
 	if(successor[index] == NULL)
-		return 0;
-	return successor[index]->contains(word, cur+1);
+		return int(Trie::NONE);
+	return successor[index]->find(word, cur+1);
 }
 
 vector<string> Trie::allWords() const{

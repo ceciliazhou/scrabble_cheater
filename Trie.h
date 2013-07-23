@@ -6,6 +6,10 @@ using std::vector;
 class Trie{
 public:
 	static const int NUM_OF_CHAR = 26;
+	static const int PREFIX = 1;
+	static const int WORD = 3;
+	static const int NONE = 0;
+	
 	Trie();
 	~Trie();
 
@@ -16,11 +20,11 @@ public:
 		param:
 			word: the word to be tested.
 		return:
-			1 if word is a valid word in the dictionary.
-			2 if word is a prefix of some word(s) in the dictionary
-			0 otherwise.
+			Trie::WORD, if word is a valid word in the dictionary.
+			Trie::PREFIX, if word is a prefix of some word(s) in the dictionary
+			Trie::NONE, otherwise.
 	*/
-	int contains(const string& word) const;
+	int find(const string& word) const;
 
 	/* 	Return a vector of all wrods in the dictionary. 	*/
 	vector<string> allWords() const;
@@ -30,6 +34,7 @@ private:
 	Trie* successor[NUM_OF_CHAR];
 
 	void insert(const string& word, int cur);
-	int contains(const string& word, int cur) const;
+	int find(const string& word, int cur) const;
 	void allWords(string& word, vector<string>& all) const;
 };
+
