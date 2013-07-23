@@ -5,11 +5,12 @@
 #include <string>
 #include <fstream>
 #include <algorithm>
+#include "Trie.h"
 
 using namespace std;
 
 /* A dictionary object loads words from a given file and is able to tell whether a given word is valid. */
-class Dict{ /* to be replaced with Trie */
+class Dict{ 
 public:
 	Dict(const char* filename){
 		ifstream ifs (filename);
@@ -18,12 +19,14 @@ public:
 			dict.insert(word);
 	}
 
-	bool contains(const string& word) const {
-		return dict.find(word) != dict.end();
+	bool hasWord(const string& word) const {
+		return dict.contains(word) == 1;
 	}
 
 	~Dict(){};
-	unordered_set<string> dict;
+
+private:
+	Trie dict;
 };
 
 /*  Scrabble value for characters from 'a' to 'z' */
@@ -60,7 +63,7 @@ void constructWords(unordered_map<char, int>& choice, string& curWord, const Dic
 
 		curWord += it->first;
 		it->second--;
-		if(dict.contains(curWord))
+		if(dict.hasWord(curWord))
 			words.push_back(make_pair(curWord, score(curWord)));
 		constructWords(choice, curWord, dict, words);		
 		
