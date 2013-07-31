@@ -1,5 +1,4 @@
 #include <iostream>
-// #include <unordered_set>
 #include <unordered_map>
 #include <cstring>
 #include <string>
@@ -75,26 +74,28 @@ void constructWords(unordered_map<char, int>& choice, string& curWord, const Dic
 
 
 int main(int argc, char** argv){
-	if(argc < 2){
-		cout << "Usage: " << argv[0] << " rack [dict]" << endl;
-		return 0;
-	}
-
 	//initialize rack and dictionary.
-	Dict dict(argc < 3 ? "dict.txt" : argv[2]);
-	char* rack = argv[1];
-	unordered_map<char, int> choice;
-	for(int i = 0; i < strlen(rack); i++){
-		if(choice.find(rack[i]) == choice.end())
-			choice[toupper(rack[i])] = 0;
-		choice[toupper(rack[i])]++;
-	}	
+	Dict dict(argc < 2 ? "dict.txt" : argv[1]);
 
-	vector<pair<string, int> > words;
-	string word;
-	constructWords(choice, word, dict, words);
-	sort(words.begin(), words.end(), highScoreGoFirst);
+	cout << "Please provide your rack:" << endl;
+	string rack;
+	
+	while(cin >> rack){
+		unordered_map<char, int> choice;
+		for(int i = 0; i < rack.length(); i++){
+			if(choice.find(rack[i]) == choice.end())
+				choice[toupper(rack[i])] = 0;
+			choice[toupper(rack[i])]++;
+		}	
 
-	for(auto it = words.begin(); it != words.end(); it++)
-		cout << it->second << ", " << it->first << endl;
+		vector<pair<string, int> > words;
+		string word;
+		constructWords(choice, word, dict, words);
+		sort(words.begin(), words.end(), highScoreGoFirst);
+
+		for(auto it = words.begin(); it != words.end(); it++)
+			cout << it->second << ", " << it->first << endl;
+
+		cout << "Please provide your rack:" << endl;
+	} 
 }
